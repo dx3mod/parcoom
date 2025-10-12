@@ -1,11 +1,11 @@
 type t = { text : string; offset : int; length : int }
 
-let of_string text = { text; offset = 0; length = String.length text }
+let[@inline] of_string text = { text; offset = 0; length = String.length text }
 
-and to_string source =
+and[@inline] to_string source =
   String.sub source.text source.offset (source.length - source.offset)
 
-let sub ~offset ?length source =
+let[@inline] sub ~offset ?length source =
   let offset = source.offset + offset in
   {
     source with
@@ -13,7 +13,7 @@ let sub ~offset ?length source =
     length = Option.fold ~none:source.length ~some:(( + ) offset) length;
   }
 
-let get source index =
+let[@inline] get source index =
   let index = source.offset + index in
   assert (index < source.length);
   source.text.[index]
