@@ -6,8 +6,9 @@
 
 (package
  (name parcoom)
- (synopsis "Parser Combinators of Monad in idiomatic OCaml")
+ (synopsis "Parser combinators library in idiomatic OCaml")
  (depends
   ocaml
   dune
-  (alcotest :with-test)))
+  (alcotest :with-test)
+  (odoc :with-docs)))
