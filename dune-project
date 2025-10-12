@@ -7,4 +7,7 @@
 (package
  (name parcoom)
  (synopsis "Parser Combinators of Monad in idiomatic OCaml")
- (depends ocaml dune))
+ (depends
+  ocaml
+  dune
+  (alcotest :with-test)))

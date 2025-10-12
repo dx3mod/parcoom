@@ -4,6 +4,7 @@ synopsis: "Parser Combinators of Monad in idiomatic OCaml"
 depends: [
   "ocaml"
   "dune" {>= "3.6"}
+  "alcotest" {with-test}
   "odoc" {with-doc}
 ]
 build: [

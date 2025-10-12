@@ -1,6 +1,6 @@
 # parcoom
 
-Super Fast and Lightweight Monadic Parser Combinator library in idiomatic OCaml. No dependencies.
+Super Fast and Lightweight Monadic Parser Combinator library in idiomatic OCaml. No dependencies (almost).
 
 ## Quick Start
 
