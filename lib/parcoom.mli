@@ -29,6 +29,7 @@ val ( <|> ) :
   'b * ('c, 'd) result
 
 val optional : ('a -> 'b * ('c, 'd) result) -> 'a -> 'b * ('c option, 'e) result
+val many : 'a Parser.t -> 'a list Parser.t
 
 (** {1 Text manipulation}*)
 

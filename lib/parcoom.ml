@@ -44,6 +44,22 @@ let optional parser source =
   let source, result = parser source in
   (source, Ok (Result.to_option result))
 
+let many parser source =
+  let values = ref [] in
+
+  let rec aux source =
+    let source, result = parser source in
+    Result.fold ~error:(Fun.const source)
+      ~ok:(fun value ->
+        values := value :: !values;
+        aux source)
+      result
+  in
+
+  let source = aux source in
+  (source, Result.ok @@ List.rev !values)
+(* (aux source, Result.ok @@ List.rev !values) *)
+
 let any_char source = (Source.sub ~offset:1 source, Ok (Source.get source 0))
 
 let char c source =
