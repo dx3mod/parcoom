@@ -29,7 +29,7 @@ let prefix prefix source =
         Error.
           {
             description = Printf.sprintf "not have prefix '%s'" prefix;
-            start_offset = source.offset;
+            start_offset = source.start_offset;
           } )
 
 let ( *> ) pa pb = bind pa @@ Fun.const pb
@@ -54,7 +54,7 @@ let char c source =
         Error.
           {
             description = Printf.sprintf "it's not '%c'" c;
-            start_offset = source.offset;
+            start_offset = source.start_offset;
           } )
 
 let parse parser = Fun.compose parser Source.of_string

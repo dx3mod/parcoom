@@ -5,9 +5,16 @@ val parse : (Source.t -> 'a) -> string -> 'a
 (** {1 Monadic syntax}*)
 
 val ( let* ) : 'a Parser.t -> ('a -> 'b Parser.t) -> 'b Parser.t
+(** The same as {!Parser.bind}. *)
+
 val ( let+ ) : 'a Parser.t -> ('a -> 'b) -> 'b Parser.t
+(** The same as {!Parser.map}. *)
+
 val ( >>= ) : 'a Parser.t -> ('a -> 'b Parser.t) -> 'b Parser.t
+(** The same as {!Parser.bind}. *)
+
 val ( >|= ) : 'a Parser.t -> ('a -> 'b) -> 'b Parser.t
+(** The same as {!Parser.map}. *)
 
 (** {1 Combinator parsers} *)
 

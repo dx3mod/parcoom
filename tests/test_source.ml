@@ -8,23 +8,24 @@ let source =
           field "text"
             (fun Parcoom.Source.{ text; _ } -> text)
             Format.pp_print_string;
-          field "offset"
-            (fun Parcoom.Source.{ offset; _ } -> offset)
+          field "start_offset"
+            (fun Parcoom.Source.{ start_offset; _ } -> start_offset)
             Format.pp_print_int;
-          field "length"
-            (fun Parcoom.Source.{ length; _ } -> length)
+          field "end_offset"
+            (fun Parcoom.Source.{ end_offset; _ } -> end_offset)
             Format.pp_print_int;
         ])
     ( = )
 
 let test_conversion_of_string () =
   (check source) "same string"
-    Parcoom.Source.{ text = "hello"; offset = 0; length = 5 }
+    Parcoom.Source.{ text = "hello"; start_offset = 0; end_offset = 5 }
     (Parcoom.Source.of_string "hello")
 
 let test_conversion_to_string () =
   (check string) "same string" "llo"
-    Parcoom.Source.(to_string { text = "hello"; offset = 2; length = 5 })
+    Parcoom.Source.(
+      to_string { text = "hello"; start_offset = 2; end_offset = 5 })
 
 let () =
   run "Parcoom.Source"
