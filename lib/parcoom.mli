@@ -21,13 +21,7 @@ val ( >|= ) : 'a Parser.t -> ('a -> 'b) -> 'b Parser.t
 val ( *> ) : 'a Parser.t -> 'b Parser.t -> 'b Parser.t
 val ( <* ) : 'a Parser.t -> 'b Parser.t -> 'a Parser.t
 val ( <*> ) : 'a Parser.t -> 'b Parser.t -> ('a * 'b) Parser.t
-
-val ( <|> ) :
-  ('a -> 'b * ('c, 'd) result) ->
-  ('b -> 'b * ('c, 'd) result) ->
-  'a ->
-  'b * ('c, 'd) result
-
+val ( <|> ) : 'a Parser.t -> 'a Parser.t -> 'a Parser.t
 val optional : ('a -> 'b * ('c, 'd) result) -> 'a -> 'b * ('c option, 'e) result
 val many : 'a Parser.t -> 'a list Parser.t
 
