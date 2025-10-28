@@ -8,7 +8,7 @@ type 'a t = Source.t -> Source.t * ('a, Error.t) result
 (** {1 Constructors} *)
 
 val return : 'a -> 'a t
-val fail : string -> Source.t -> Source.t * ('a, Error.t) result
+val fail : string -> _ t
 
 (** {1 Monadic operations} *)
 
