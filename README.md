@@ -1,6 +1,8 @@
 # parcoom
 
-Lightweight monadic parser combinator library in idiomatic OCaml. No dependencies (almost).
+Lightweight monadic parser combinator library in OCaml. No dependencies (almost).
+It's rewritten version of [Tsoding's library](https://github.com/tsoding/parcoom) in more
+idiomatic OCaml way.
 
 ## Quick Start
 
@@ -12,7 +14,7 @@ Requirements:
 
 Installation of latest development version's the library.
 ```console
-$ opam install parcoom.dev https://github.com/dx3mod/parcoom-idiomatic.git
+$ opam install parcoom.dev https://github.com/dx3mod/parcoom.git
 ```
 
 And for use in UTop (for example).
