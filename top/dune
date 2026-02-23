@@ -1,6 +1,6 @@
 (library
  (name parcoom_top)
- (public_name parcoom.top)
+ (package parcoom)
  (modes byte)
  (wrapped false)
  (libraries compiler-libs.common))
