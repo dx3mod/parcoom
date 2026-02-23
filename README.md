@@ -23,7 +23,7 @@ And for use in UTop (for example).
 ```
 ```ocaml
 # let open Parcoom in
-  parse (char 'h' <*> any_char) "hello";;
+  parse_string (char 'h' <*> any_char) "hello";;
 - : _ * (char * char, _) result = ("llo", Ok ('h', 'e'))
 ```
 

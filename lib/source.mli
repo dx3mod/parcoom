@@ -26,7 +26,17 @@ val sub : offset:int -> ?length:int -> t -> t
     ]} *)
 
 val get : t -> int -> char
-(** [get source index] a char by index in substring's view range. *)
+(** [get source index] a char by index in substring's view range.
+
+    @raise End_of_file if [index] out of the bounds of substring's view range.
+*)
+
+val get_opt : t -> int -> char option
+(** [get_opt source index] a char by index optionally in substring's view range.
+*)
+
+val is_empty : t -> bool
+(** [is_empty source] checks that start offset and end offset are equal. *)
 
 val starts_with : prefix:string -> t -> bool
 (** [starts_with ~prefix source] checks if a substring's view starts with the

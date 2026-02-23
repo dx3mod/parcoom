@@ -1,6 +1,26 @@
 (** Parser combinators library in idiomatic OCaml. *)
 
-val parse : (Source.t -> 'a) -> string -> 'a
+(** {b Prefix parse functions} *)
+
+val parse : 'a Parser.t -> Source.t -> Source.t * ('a, Error.t) result
+(** [parse parser source] return partial parsed result with tail of the
+    [source]. *)
+
+val parse_string : 'a Parser.t -> string -> Source.t * ('a, Error.t) result
+(** [parse_string string] return partial parsed result with tail of the
+    [string]. *)
+
+(** {b Full parse functions} *)
+
+val parse_full : 'a Parser.t -> Source.t -> ('a, Error.t) result
+(** [parse_full parser source] return parsed result of the [source].
+
+    @raise End_of_file if the [source] is not full parsed. *)
+
+val parse_string_full : 'a Parser.t -> string -> ('a, Error.t) result
+(** [parse_string_full parser source] return parsed result of the [string].
+
+    @raise End_of_file if the [string] is not full parsed. *)
 
 (** {1 Monadic syntax}*)
 
@@ -29,7 +49,7 @@ val many : 'a Parser.t -> 'a list Parser.t
 
 val take_while : (char -> bool) -> Source.t -> Source.t * (string, 'a) result
 val prefix : string -> Source.t -> Source.t * (string, Error.t) result
-val any_char : Source.t -> Source.t * (char, 'a) result
+val any_char : Source.t -> Source.t * (char, Error.t) result
 val char : char -> Source.t -> Source.t * (char, Error.t) result
 
 (** {1 Exported modules} *)

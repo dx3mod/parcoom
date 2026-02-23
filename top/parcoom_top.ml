@@ -5,4 +5,5 @@ let eval code =
 
 let () =
   eval {|#require "parcoom";;|};
-  eval "#install_printer Parcoom.Source.pp;;"
+  eval "#install_printer Parcoom.Source.pp;;";
+  eval "#install_printer Parcoom.Error.pp;;"

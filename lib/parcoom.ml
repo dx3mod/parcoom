@@ -11,8 +11,9 @@ and ( >|= ) v f = map f v
 
 let take_while p source =
   let rec aux index =
-    let char = Source.get source index in
-    if p char then aux @@ succ index else index
+    match Source.get_opt source index with
+    | Some ch when p ch -> aux (succ index)
+    | _ -> index
   in
 
   let end_index = aux 0 in
@@ -25,12 +26,8 @@ let prefix prefix source =
     (Source.sub ~offset:(String.length prefix) source, Ok prefix)
   else
     ( source,
-      Error
-        Error.
-          {
-            description = Printf.sprintf "not have prefix '%s'" prefix;
-            start_offset = source.start_offset;
-          } )
+      Error.error ~offset:source.start_offset
+        (Printf.sprintf "not have prefix '%s'" prefix) )
 
 let ( *> ) pa pb = bind pa @@ Fun.const pb
 let ( <* ) pa pb = bind pa @@ fun a -> map (Fun.const a) pb
@@ -45,32 +42,37 @@ let optional parser source =
   (source, Ok (Result.to_option result))
 
 let many parser source =
-  let values = ref [] in
-
-  let rec aux source =
-    let source, result = parser source in
-    Result.fold ~error:(Fun.const source)
-      ~ok:(fun value ->
-        values := value :: !values;
-        aux source)
-      result
+  let rec aux values source =
+    match parser source with
+    | source, Error _ -> (source, values)
+    | source, Ok value -> aux (value :: values) source
   in
 
-  let source = aux source in
-  (source, Result.ok @@ List.rev !values)
-(* (aux source, Result.ok @@ List.rev !values) *)
+  let source, values = aux [] source in
+  (source, Result.ok @@ List.rev values)
 
-let any_char source = (Source.sub ~offset:1 source, Ok (Source.get source 0))
+let any_char source =
+  match Source.get_opt source 0 with
+  | Some ch -> (Source.sub ~offset:1 source, Ok ch)
+  | _ -> (source, Error.error ~offset:source.start_offset "end of file")
 
 let char c source =
-  if Source.get source 0 = c then (Source.sub ~offset:1 source, Ok c)
-  else
-    ( source,
-      Error
-        Error.
-          {
-            description = Printf.sprintf "it's not '%c'" c;
-            start_offset = source.start_offset;
-          } )
+  match Source.get_opt source 0 with
+  | Some ch when ch = c -> (Source.sub ~offset:1 source, Ok c)
+  | _ ->
+      ( source,
+        Error.error ~offset:source.start_offset
+          (Printf.sprintf "it's not '%c' char" c) )
 
-let parse parser = Fun.compose parser Source.of_string
+exception Not_full_parsed
+
+let parse parser source = parser source
+
+and parse_full parser source =
+  match parser source with
+  | source, Ok value when Source.is_empty source -> Ok value
+  | _, Ok _ -> raise Not_full_parsed
+  | _, Error err -> Error err
+
+let parse_string parser str = Source.of_string str |> parse parser
+and parse_string_full parser str = Source.of_string str |> parse_full parser

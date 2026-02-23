@@ -17,8 +17,14 @@ let[@inline] sub ~offset ?length source =
 
 let[@inline] get source index =
   let index = source.start_offset + index in
-  assert (index < source.end_offset);
+  if index >= source.end_offset then raise End_of_file;
   source.text.[index]
+
+let[@inline] get_opt source index =
+  let index = source.start_offset + index in
+  if index >= source.end_offset then None else Some source.text.[index]
+
+let is_empty source = source.start_offset = source.end_offset
 
 let starts_with ~prefix source =
   let length = String.length prefix in
